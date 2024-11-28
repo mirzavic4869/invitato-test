@@ -1,10 +1,10 @@
 import { Hero } from '../components/Hero';
-// import { OpeningSection } from '../components/OpeningSection';
+import { OpeningSection } from '../components/OpeningSection';
 
 const Index = () => (
   <>
     <Hero />
-    {/* <OpeningSection /> */}
+    <OpeningSection />
   </>
 );
 

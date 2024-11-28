@@ -8,8 +8,21 @@ const MotionBox = motion(Box);
 export const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [audio, setAudio] = useState(null);
 
   const images = ['/images/slide-1.jpg', '/images/slide-2.jpg', '/images/slide-3.jpg', '/images/slide-4.jpg', '/images/slide-5.jpg'];
+
+  useEffect(() => {
+    // Setup audio instance
+    const bgMusic = new Audio('/music/background-music.mp3');
+    bgMusic.loop = true;
+    setAudio(bgMusic);
+
+    return () => {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+    };
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,6 +32,13 @@ export const Hero = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  const handleOpen = () => {
+    setIsOpen(true);
+    if (audio) {
+      audio.play();
+    }
+  };
+
   return (
     <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} minH="100vh">
       {/* Left Side */}
@@ -26,16 +46,16 @@ export const Hero = () => {
         {/* Overlay */}
         <Box position="absolute" top={0} left={0} width="100%" height="100%" bg="rgba(0, 0, 0, 0.5)" zIndex={1}></Box>
         {/* Content */}
-        <Box position="relative" zIndex={2} display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%" color="white" p={8} textAlign="center">
-          <Heading fontSize="4xl" mb={4} textTransform="uppercase">
+        <Box position="relative" zIndex={2} display="flex" flexDirection="column" justifyContent="start" alignItems="start" height="100%" color="white" p={20} textAlign="left">
+          <Heading fontSize="4xl" mb={16} textTransform="uppercase">
             Wedding Announcement
           </Heading>
-          <Heading fontSize="6xl">TIFFANY & JARED</Heading>
-          <Text fontSize="lg" mt={4}>
+          <Heading fontSize="8xl">TIFFANY & JARED</Heading>
+          <Text fontSize="x-large" fontStyle="italic" fontWeight="light" mt={4}>
             "Aku ingin mencintaimu dengan sederhana; dengan kata yang tak sempat diucapkan kayu kepada api yang menjadikannya abu. Aku ingin mencintaimu dengan sederhana; dengan isyarat yang tak sempat disampaikan awan kepada hujan yang
             menjadikannya tiada."
           </Text>
-          <Text mt={2} fontStyle="italic" fontWeight="light" fontSize="md">
+          <Text mt={2} fontStyle="italic" fontWeight="light" fontSize="x-large">
             — Sapardi Djoko Damono
           </Text>
         </Box>
@@ -66,15 +86,17 @@ export const Hero = () => {
         {/* Content */}
         {isOpen && (
           <Box position="absolute" zIndex={2} display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%" width="100%" color="white" p={8} textAlign="center">
-            <Heading fontSize="4xl" mb={4} textTransform="uppercase">
+            <Heading fontSize="4xl" mt={20} mb={40} textTransform="uppercase">
               Wedding Announcement
             </Heading>
-            <Heading fontSize="6xl">TIFFANY & JARED</Heading>
-            <Text fontSize="lg" fontWeight="bold" mt={4}>
+            <Heading fontSize="6xl" fontStyle={'italic'} fontWeight="light">
+              TIFFANY & JARED
+            </Heading>
+            <Text fontSize="x-large" fontStyle={'italic'} fontWeight="light" mt={2}>
               #TImetoshaRE
             </Text>
             <Flex>
-              <Text fontSize="md" fontWeight="bold" mt={4}>
+              <Text fontSize="md" fontWeight="bold" mt={40}>
                 SCROLL TO BEGIN
               </Text>
             </Flex>
@@ -86,33 +108,25 @@ export const Hero = () => {
           <Box width="100%" height="100%" position="absolute" bgImage="url('/images/bg-right.jpg')" bgSize="cover" bgPosition="center">
             <Box position="absolute" top={0} left={0} width="100%" height="100%" bg="rgba(0, 0, 0, 0.5)" zIndex={1}></Box>
             {/* Content */}
-            <Box position="relative" zIndex={2} display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%" color="white" p={8} textAlign="center">
-              <Heading fontSize="4xl" mb={4} textTransform="uppercase">
+            <Box position="relative" zIndex={2} display="flex" flexDirection="column" justifyContent="start" alignItems="center" height="100%" color="white" p={8} textAlign="center">
+              <Heading fontSize="4xl" mt={20} mb={40} textTransform="uppercase">
                 Wedding Announcement
               </Heading>
-              <Heading fontSize="6xl">TIFFANY & JARED</Heading>
-              <Text fontSize="lg" fontWeight="bold" mt={4}>
+              <Heading fontSize="6xl" fontStyle={'italic'} fontWeight="light">
+                TIFFANY & JARED
+              </Heading>
+              <Text fontSize="x-large" fontStyle={'italic'} fontWeight="light" mt={2}>
                 #TImetoshaRE
               </Text>
-              <Button colorScheme="teal" size="lg" mt={6} onClick={() => setIsOpen(true)}>
-                Open
+              <Button colorScheme="whiteAlpha" size="lg" mt={6} onClick={handleOpen}>
+                Open Invitation
               </Button>
             </Box>
           </Box>
         )}
       </GridItem>
-      {/* Left Side */}
-      {isOpen && (
-        <GridItem>
-          <OpeningSection />
-        </GridItem>
-      )}
       {/* Right Side */}
-      {isOpen && (
-        <GridItem>
-          <OpeningSection />
-        </GridItem>
-      )}
+      {/* {isOpen && <OpeningSection />} */}
     </Grid>
   );
 };

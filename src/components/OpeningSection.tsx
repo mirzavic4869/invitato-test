@@ -36,7 +36,7 @@ export const OpeningSection = () => {
       {/* Image Slider */}
       <Box position="relative" w="80%" maxW="800px" overflow="hidden">
         <MotionBox key={currentIndex} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }}>
-          <Image src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} borderRadius="md" />
+          <Image src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} borderRadius="md" width="100%" />
         </MotionBox>
 
         {/* Navigation Buttons */}
